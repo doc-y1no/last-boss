@@ -3,15 +3,11 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'next/core-web-vitals',
-    "plugin:prettier/recommended"
+    'plugin:prettier/recommended',
   ],
 
-
-
-  plugins: ['unused-imports', "prettier"],
+  plugins: ['unused-imports', 'prettier'],
   parser: '@typescript-eslint/parser',
-
-
 
   parserOptions: {
     project: './tsconfig.json',
@@ -23,6 +19,6 @@ module.exports = {
     '@typescript-eslint/no-unsafe-member-access': 'error',
     '@typescript-eslint/no-unsafe-return': 'error',
     'unused-imports/no-unused-imports': 'error',
-    "prettier/prettier": "error"
+    'prettier/prettier': 'error',
   },
 };
