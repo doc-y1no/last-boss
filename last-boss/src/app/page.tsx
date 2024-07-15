@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import styles from './page.module.css';
-import Header from './components/Header';
+import Header from './components/header';
 import Footer from './components/Footer';
 import PrefecturesList from './components/PrefecturesList';
 import Graph from './components/Graph';
@@ -29,12 +29,17 @@ const MainContent: React.FC = () => {
 
   return (
     <main className={styles.main}>
-      <header className="checkbox">
+      <header className='checkbox'>
         <Header title={'超ラスボス課題'} />
       </header>
       <div>
-        <PrefecturesList onSelectedPrefecturesChange={handleSelectedPrefecturesChange} />
-        <Graph value={'人口データグラフ'} selectedPrefectures={selectedPrefectures} />
+        <PrefecturesList
+          onSelectedPrefecturesChange={handleSelectedPrefecturesChange}
+        />
+        <Graph
+          value={'人口データグラフ'}
+          selectedPrefectures={selectedPrefectures}
+        />
       </div>
       <footer>
         <Footer />

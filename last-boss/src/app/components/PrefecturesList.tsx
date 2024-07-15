@@ -11,20 +11,31 @@ type PrefecturesListProps = {
   onSelectedPrefecturesChange: (selectedPrefectures: number[]) => void;
 };
 
-const PrefectureItem: React.FC<{ pref: Prefecture, onChange: (prefCode: number, isChecked: boolean) => void }> = ({ pref, onChange }) => {
+const PrefectureItem: React.FC<{
+  pref: Prefecture;
+  onChange: (prefCode: number, isChecked: boolean) => void;
+}> = ({ pref, onChange }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(pref.prefCode, event.target.checked);
   };
 
   return (
     <div className={styles['prefecture-item']}>
-      <input type="checkbox" id={pref.prefCode.toString()} name={pref.prefName} value={pref.prefName} onChange={handleChange} />
+      <input
+        type='checkbox'
+        id={pref.prefCode.toString()}
+        name={pref.prefName}
+        value={pref.prefName}
+        onChange={handleChange}
+      />
       <label htmlFor={pref.prefCode.toString()}>{pref.prefName}</label>
     </div>
   );
 };
 
-const PrefecturesList: React.FC<PrefecturesListProps> = ({ onSelectedPrefecturesChange }) => {
+const PrefecturesList: React.FC<PrefecturesListProps> = ({
+  onSelectedPrefecturesChange,
+}) => {
   const [prefectures, setPrefectures] = useState<Prefecture[]>([]);
   const [selectedPrefectures, setSelectedPrefectures] = useState<number[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -32,11 +43,17 @@ const PrefecturesList: React.FC<PrefecturesListProps> = ({ onSelectedPrefectures
   useEffect(() => {
     const fetchPrefectures = async () => {
       try {
-        const response = await axios.get('https://opendata.resas-portal.go.jp/api/v1/prefectures', {
-          headers: { 'X-API-KEY': process.env.NEXT_PUBLIC_API_KEY as string },
-        });
-        if (response.data && response.data.result) {
-          setPrefectures(response.data.result);
+        const response = await axios.get(
+          'https://opendata.resas-portal.go.jp/api/v1/prefectures',
+          {
+            headers: { 'X-API-KEY': process.env.NEXT_PUBLIC_API_KEY as string },
+          }
+        );
+        if (
+          response.data &&
+          (response.data as { result: Prefecture[] }).result
+        ) {
+          setPrefectures((response.data as { result: Prefecture[] }).result);
         } else {
           console.error('Unexpected response structure:', response.data);
           setError('Unexpected response structure');
@@ -53,7 +70,7 @@ const PrefecturesList: React.FC<PrefecturesListProps> = ({ onSelectedPrefectures
   const handlePrefectureChange = (prefCode: number, isChecked: boolean) => {
     const updatedSelection = isChecked
       ? [...selectedPrefectures, prefCode]
-      : selectedPrefectures.filter(code => code !== prefCode);
+      : selectedPrefectures.filter((code) => code !== prefCode);
 
     setSelectedPrefectures(updatedSelection);
     onSelectedPrefecturesChange(updatedSelection);
@@ -66,7 +83,11 @@ const PrefecturesList: React.FC<PrefecturesListProps> = ({ onSelectedPrefectures
       <div className={styles['prefectures-list']}>
         {prefectures.length > 0 ? (
           prefectures.map((prefecture) => (
-            <PrefectureItem key={prefecture.prefCode} pref={prefecture} onChange={handlePrefectureChange} />
+            <PrefectureItem
+              key={prefecture.prefCode}
+              pref={prefecture}
+              onChange={handlePrefectureChange}
+            />
           ))
         ) : (
           <p>Loading...</p>
